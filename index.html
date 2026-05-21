@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>암 진단 후 보험금 얼마나 나올까?</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --red: #CB0000;
+    --red-light: #fff0f0;
+    --red-mid: #ffd5d5;
+    --dark: #1a1a1a;
+    --gray: #6b6b6b;
+    --gray-light: #f5f4f1;
+    --border: #e8e4df;
+    --white: #ffffff;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: var(--white);
+    color: var(--dark);
+    line-height: 1.7;
+    font-size: 16px;
+  }
+
+  /* HERO */
+  .hero {
+    background: var(--dark);
+    color: var(--white);
+    padding: 80px 24px 72px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; left: 50%;
+    transform: translateX(-50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(203,0,0,0.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-tag {
+    display: inline-block;
+    background: var(--red);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    padding: 6px 14px;
+    border-radius: 2px;
+    margin-bottom: 28px;
+    text-transform: uppercase;
+  }
+  .hero h1 {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: clamp(26px, 5vw, 44px);
+    font-weight: 900;
+    line-height: 1.3;
+    max-width: 700px;
+    margin: 0 auto 20px;
+  }
+  .hero h1 span { color: var(--red); }
+  .hero-sub {
+    font-size: 16px;
+    color: rgba(255,255,255,0.65);
+    max-width: 520px;
+    margin: 0 auto 40px;
+    font-weight: 300;
+  }
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin-top: 48px;
+    padding-top: 40px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+  .hero-stat { text-align: center; }
+  .hero-stat-num {
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--white);
+    display: block;
+  }
+  .hero-stat-label {
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    font-weight: 300;
+    margin-top: 4px;
+  }
+
+  /* SCENARIO */
+  .scenario {
+    background: var(--red-light);
+    border-left: 4px solid var(--red);
+    padding: 40px 32px;
+    max-width: 780px;
+    margin: 64px auto;
+    border-radius: 0 8px 8px 0;
+  }
+  .scenario-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: var(--red);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .scenario p {
+    font-size: 17px;
+    line-height: 1.8;
+    color: var(--dark);
+  }
+  .scenario-question {
+    margin-top: 20px;
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--red);
+  }
+
+  /* SECTION WRAPPER */
+  .section {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 64px 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section:last-of-type { border-bottom: none; }
+
+  .section-num {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: var(--red);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .section-purpose {
+    display: inline-block;
+    background: var(--gray-light);
+    color: var(--gray);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+  }
+  .section h2 {
+    font-size: clamp(22px, 4vw, 30px);
+    font-weight: 900;
+    line-height: 1.3;
+    margin-bottom: 8px;
+  }
+  .section h2 .price {
+    color: var(--red);
+  }
+  .section-desc {
+    font-size: 16px;
+    color: var(--gray);
+    margin-bottom: 32px;
+    font-weight: 300;
+  }
+
+  /* BENEFIT ROWS */
+  .benefit-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+  .benefit-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 18px 20px;
+    background: var(--gray-light);
+    border-radius: 8px;
+    transition: background 0.2s;
+  }
+  .benefit-row:hover { background: #eceae5; }
+  .benefit-icon {
+    width: 36px; height: 36px;
+    background: var(--red);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .benefit-icon.outline {
+    background: transparent;
+    border: 2px solid var(--red);
+    color: var(--red);
+  }
+  .benefit-content { flex: 1; }
+  .benefit-name {
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 2px;
+  }
+  .benefit-detail {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.5;
+  }
+  .benefit-amount {
+    font-weight: 900;
+    font-size: 16px;
+    color: var(--dark);
+    white-space: nowrap;
+    flex-shrink: 0;
+    text-align: right;
+  }
+
+  /* NOTICE BOX */
+  .notice {
+    background: #fff8e1;
+    border-left: 3px solid #f59e0b;
+    padding: 16px 20px;
+    border-radius: 0 6px 6px 0;
+    font-size: 13px;
+    color: #7c5a00;
+    margin-bottom: 24px;
+    line-height: 1.7;
+  }
+  .notice strong { font-weight: 700; }
+
+  /* HIGHLIGHT BOX */
+  .highlight-box {
+    background: var(--dark);
+    color: var(--white);
+    padding: 24px 28px;
+    border-radius: 10px;
+    margin-bottom: 28px;
+  }
+  .highlight-box-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--red);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .highlight-box p {
+    font-size: 15px;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.85);
+  }
+
+  /* INFO TAGS */
+  .info-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 28px;
+  }
+  .info-tag {
+    background: var(--red-light);
+    color: var(--red);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--red-mid);
+  }
+  .info-tag.gray {
+    background: var(--gray-light);
+    color: var(--gray);
+    border-color: var(--border);
+  }
+
+  /* CAUTION LIST */
+  .caution-list {
+    margin-bottom: 28px;
+  }
+  .caution-list-title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--gray);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .caution-list ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .caution-list ul li {
+    font-size: 13px;
+    color: var(--gray);
+    padding-left: 16px;
+    position: relative;
+    line-height: 1.6;
+  }
+  .caution-list ul li::before {
+    content: '·';
+    position: absolute;
+    left: 4px;
+    font-weight: 700;
+  }
+
+  /* CTA BUTTON */
+  .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--red);
+    color: white;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 16px 32px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+    letter-spacing: 0.02em;
+  }
+  .cta-btn:hover {
+    background: #a80000;
+    transform: translateY(-1px);
+  }
+  .cta-btn:active { transform: translateY(0); }
+  .cta-btn .arrow { font-size: 16px; }
+
+  /* SUMMARY TABLE SECTION */
+  .summary-section {
+    background: var(--dark);
+    padding: 72px 24px;
+  }
+  .summary-inner {
+    max-width: 780px;
+    margin: 0 auto;
+  }
+  .summary-section .section-num { color: rgba(255,255,255,0.4); }
+  .summary-section h2 {
+    font-size: clamp(22px, 4vw, 30px);
+    font-weight: 900;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+  .summary-section .section-desc { color: rgba(255,255,255,0.5); margin-bottom: 40px; }
+
+  .summary-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-bottom: 40px;
+  }
+  .summary-card {
+    background: rgba(255,255,255,0.05);
+    padding: 24px 28px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 16px;
+    align-items: center;
+    transition: background 0.2s;
+  }
+  .summary-card:first-child { border-radius: 10px 10px 0 0; }
+  .summary-card:last-child { border-radius: 0 0 10px 10px; }
+  .summary-card:hover { background: rgba(255,255,255,0.08); }
+  .summary-card-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--white);
+  }
+  .summary-card-purpose {
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+  }
+  .summary-card-price {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--red);
+    text-align: center;
+  }
+  .summary-card-amount {
+    font-size: 15px;
+    font-weight: 900;
+    color: var(--white);
+    text-align: right;
+  }
+  .summary-total {
+    background: var(--red);
+    padding: 20px 28px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+  }
+  .summary-total-label {
+    font-size: 14px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.8);
+  }
+  .summary-total-price {
+    font-size: 14px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.8);
+  }
+
+  .three-points {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 40px;
+  }
+  .three-point {
+    background: rgba(255,255,255,0.05);
+    padding: 20px;
+    border-radius: 8px;
+    border-top: 3px solid var(--red);
+  }
+  .three-point-num {
+    font-size: 11px;
+    color: var(--red);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+  }
+  .three-point p {
+    font-size: 13px;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.6;
+  }
+
+  /* FACTORS SECTION */
+  .factors-section {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 64px 24px;
+  }
+  .factors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin: 28px 0 40px;
+  }
+  .factor-card {
+    background: var(--gray-light);
+    padding: 20px;
+    border-radius: 8px;
+  }
+  .factor-card-icon { font-size: 22px; margin-bottom: 8px; }
+  .factor-card-title {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .factor-card-desc {
+    font-size: 12px;
+    color: var(--gray);
+    line-height: 1.5;
+  }
+
+  /* FINAL CTA */
+  .final-cta {
+    background: var(--red);
+    padding: 80px 24px;
+    text-align: center;
+  }
+  .final-cta h2 {
+    font-size: clamp(22px, 4vw, 34px);
+    font-weight: 900;
+    color: var(--white);
+    margin-bottom: 16px;
+    line-height: 1.4;
+  }
+  .final-cta p {
+    font-size: 16px;
+    color: rgba(255,255,255,0.8);
+    margin-bottom: 36px;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: 300;
+  }
+  .cta-btn.white {
+    background: var(--white);
+    color: var(--red);
+  }
+  .cta-btn.white:hover {
+    background: #f5f5f5;
+  }
+  .final-note {
+    margin-top: 24px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.6);
+  }
+
+  /* DISCLAIMER */
+  .disclaimer {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 32px 24px;
+    font-size: 11px;
+    color: #aaa;
+    line-height: 1.7;
+    border-top: 1px solid var(--border);
+    text-align: center;
+  }
+
+  @media (max-width: 600px) {
+    .summary-card {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto;
+    }
+    .summary-card-amount { grid-column: 2; }
+    .three-points { grid-template-columns: 1fr; }
+    .hero-stats { gap: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-tag">실제 보험 일러스트레이션 기반</div>
+  <h1>캘리포니아 52세 남성,<br>대장암 2기 진단.<br><span>매달 $447로 만든 3개의 방어선</span></h1>
+  <p class="hero-sub">보험 3개는 각각 다른 역할을 합니다. 실제 숫자로 보여드립니다.</p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-num">$500,000</span>
+      <span class="hero-stat-label">사망보험금</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-num">최대 $391,000</span>
+      <span class="hero-stat-label">생전 중대질환 수령</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-num">$65,494</span>
+      <span class="hero-stat-label">암 진단 즉시 현금</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-num">$1,500/주</span>
+      <span class="hero-stat-label">치료 중 소득 대체</span>
+    </div>
+  </div>
+</section>
+
+<!-- SCENARIO -->
+<div style="max-width:780px;margin:0 auto;padding:0 24px;">
+  <div class="scenario">
+    <div class="scenario-label">시나리오</div>
+    <p>캘리포니아 거주, 52세 비흡연 건강한 남성. 어느 날 대장암 2기 진단을 받고 당분간 일을 쉬어야 하는 상황. 이 분이 미리 가입해 둔 보험 3개가 각각 다른 역할로 작동하기 시작합니다.</p>
+    <p class="scenario-question">"혹시 지금 내가 이 상황이라면?"</p>
+  </div>
+</div>
+
+<!-- INSURANCE 1 -->
+<section class="section">
+  <div class="section-num">보험 01</div>
+  <div class="section-purpose">가족을 지키는 보험이지만, 내가 아플 때도 씁니다</div>
+  <h2>생명보험 + 리빙베네핏<br><span class="price">월 $143.88</span></h2>
+  <p class="section-desc">사망보험금 $500,000짜리 생명보험이지만, 추가 보험료 없이 살아있는 동안 5가지 상황에서 사망보험금을 미리 당겨 쓸 수 있습니다.</p>
+
+  <div class="highlight-box">
+    <div class="highlight-box-title">사망 시</div>
+    <p>가족에게 <strong style="color:white;font-weight:900;">$500,000</strong> 지급. 단, 생전에 리빙베네핏을 사용한 금액만큼 차감됩니다.</p>
+  </div>
+
+  <p style="font-size:13px;font-weight:700;letter-spacing:0.08em;color:var(--gray);text-transform:uppercase;margin-bottom:12px;">생전 사용 가능한 5가지 (Accelerated Benefit Rider)</p>
+  <div class="benefit-list">
+    <div class="benefit-row">
+      <div class="benefit-icon">1</div>
+      <div class="benefit-content">
+        <div class="benefit-name">말기질환 (Terminal Illness)</div>
+        <div class="benefit-detail">24개월 이내 사망이 예상되는 진단 시 일시금 지급</div>
+      </div>
+      <div class="benefit-amount">약 $427,000</div>
+    </div>
+    <div class="benefit-row">
+      <div class="benefit-icon">2</div>
+      <div class="benefit-content">
+        <div class="benefit-name">만성질환 / 간병 (Chronic Illness)</div>
+        <div class="benefit-detail">일상생활 6가지 중 2가지 이상 수행 불가, 또는 인지장애 시 월 지급 방식</div>
+      </div>
+      <div class="benefit-amount">월 $6,567</div>
+    </div>
+    <div class="benefit-row">
+      <div class="benefit-icon">3</div>
+      <div class="benefit-content">
+        <div class="benefit-name">중대질환 (Critical Illness)</div>
+        <div class="benefit-detail">암, 심장마비, 뇌졸중, 신부전 등 진단 시. 심각도와 기대수명 영향에 따라 4단계 산정 — $0이 될 수도 있습니다.</div>
+      </div>
+      <div class="benefit-amount">최대 ~$391,000</div>
+    </div>
+    <div class="benefit-row">
+      <div class="benefit-icon">4</div>
+      <div class="benefit-content">
+        <div class="benefit-name">중대상해 (Critical Injury)</div>
+        <div class="benefit-detail">혼수상태, 마비, 중증화상, 외상성 뇌손상 시. 심각도에 따라 산정.</div>
+      </div>
+      <div class="benefit-amount">최대 ~$391,000</div>
+    </div>
+    <div class="benefit-row">
+      <div class="benefit-icon">5</div>
+      <div class="benefit-content">
+        <div class="benefit-name">알츠하이머 (Alzheimer's Disease)</div>
+        <div class="benefit-detail">별도 독립 항목으로, 치매 진단 후 인지기능 기준 충족 시 일시금 지급</div>
+      </div>
+      <div class="benefit-amount">약 $351,874</div>
+    </div>
+  </div>
+
+  <div class="notice">
+    <strong>중대질환·중대상해 지급액은 보장된 금액이 아닙니다.</strong> 청구 전 사전 추정액을 받아볼 수 있으며, 금액이 마음에 들지 않으면 청구하지 않을 수 있습니다. 또한 15년 이내 영구보험으로 전환 시 건강 변화와 무관하게 기존 등급 유지됩니다.
+  </div>
+
+  <div class="info-tags">
+    <span class="info-tag">✓ 영주권·시민권 없이 Tax ID(ITIN)만으로 가입 가능</span>
+    <span class="info-tag gray">나이·성별·흡연·건강상태·거주 주에 따라 보험료 다름</span>
+  </div>
+
+  <a href="https://stan.store/redbook/p/---cv31rqai" class="cta-btn">내 견적 받아보기 <span class="arrow">→</span></a>
+</section>
+
+<!-- INSURANCE 2 -->
+<section class="section">
+  <div class="section-num">보험 02</div>
+  <div class="section-purpose">진단받는 순간, 내 손에 들어오는 현금</div>
+  <h2>암보험 (Critical Illness)<br><span class="price">월 $150</span></h2>
+  <p class="section-desc">치료 여부, 병원 선택과 무관하게 진단만으로 현금이 나옵니다. 생활비, 모기지, 가족 비용 — 어디에 써도 됩니다.</p>
+
+  <p style="font-size:13px;font-weight:700;letter-spacing:0.08em;color:var(--gray);text-transform:uppercase;margin-bottom:12px;">커버되는 질환 및 지급 비율 ($65,494 기준)</p>
+  <div class="benefit-list">
+    <div class="benefit-row">
+      <div class="benefit-icon">100%</div>
+      <div class="benefit-content">
+        <div class="benefit-name">침윤성 암 (Invasive Cancer)</div>
+        <div class="benefit-detail">대장암 2기 해당. 진단 즉시 전액 지급.</div>
+      </div>
+      <div class="benefit-amount">$65,494</div>
+    </div>
+    <div class="benefit-row">
+      <div class="benefit-icon">100%</div>
+      <div class="benefit-content">
+        <div class="benefit-name">심장마비, 뇌졸중, 신부전, 알츠하이머, 마비, 혼수상태</div>
+        <div class="benefit-detail">각 진단 시 100% 전액 지급</div>
+      </div>
+      <div class="benefit-amount">$65,494</div>
+    </div>
+    <div class="benefit-row">
+      <div class="benefit-icon outline">25%</div>
+      <div class="benefit-content">
+        <div class="benefit-name">비침윤성 암 (Non-Invasive Cancer)</div>
+        <div class="benefit-detail">초기 전립선암(T1N0M0), 초기 스테이지 암 등</div>
+      </div>
+      <div class="benefit-amount">$16,374</div>
+    </div>
+    <div class="benefit-row">
+      <div class="benefit-icon outline">25%</div>
+      <div class="benefit-content">
+        <div class="benefit-name">관상동맥우회술, 혈관성형술</div>
+        <div class="benefit-detail">의학적으로 필요하다고 판단된 시술</div>
+      </div>
+      <div class="benefit-amount">$16,374</div>
+    </div>
+    <div class="benefit-row">
+      <div class="benefit-icon outline">25%+75%</div>
+      <div class="benefit-content">
+        <div class="benefit-name">주요장기이식</div>
+        <div class="benefit-detail">UNOS 등록 시 25%, 이식 수술 완료 시 추가 75%</div>
+      </div>
+      <div class="benefit-amount">최대 $65,494</div>
+    </div>
+  </div>
+
+  <div class="highlight-box">
+    <div class="highlight-box-title">한 번만 쓰는 보험이 아닙니다</div>
+    <p>암으로 $65,494를 받은 후, 6개월 뒤 심장마비가 온다면 — 다시 <strong style="color:white;font-weight:900;">$65,494</strong>를 받을 수 있습니다. 이전 질환과 인과관계 없는 새로운 중대질환이라면 매번 지급됩니다.</p>
+  </div>
+
+  <div class="highlight-box" style="background:var(--gray-light);color:var(--dark);margin-bottom:28px;">
+    <div class="highlight-box-title" style="color:var(--gray);">보험료 환급 조항</div>
+    <p style="color:var(--gray);">중대질환이 아닌 원인으로 사망 시, 납입한 보험료에서 지급받은 금액을 제외한 나머지를 유족에게 환급합니다. 쓰지 않으면 돌려받는 구조입니다.</p>
+  </div>
+
+  <div class="caution-list">
+    <div class="caution-list-title">주의사항</div>
+    <ul>
+      <li>가입 후 30일 이내 진단은 지급 제외</li>
+      <li>기존 질환은 가입 후 6개월부터 커버</li>
+      <li>70세 이후 보장금액 50% 감소</li>
+      <li>나이·성별·흡연 여부·거주 주에 따라 보험료 다름</li>
+    </ul>
+  </div>
+
+  <a href="https://stan.store/redbook/p/---cv31rqai" class="cta-btn">내 견적 받아보기 <span class="arrow">→</span></a>
+</section>
+
+<!-- INSURANCE 3 -->
+<section class="section">
+  <div class="section-num">보험 03</div>
+  <div class="section-purpose">치료 중 소득을 대체합니다</div>
+  <h2>단기 장애보험<br><span class="price">월 $153.33</span></h2>
+  <p class="section-desc">암 자체가 아니라, 암 치료 때문에 일을 못하는 동안 작동하는 보험입니다.</p>
+
+  <div class="benefit-list">
+    <div class="benefit-row">
+      <div class="benefit-icon">①</div>
+      <div class="benefit-content">
+        <div class="benefit-name">완전 장애 급여</div>
+        <div class="benefit-detail">30일 대기 후부터 일을 전혀 못하는 동안 주급 지급. 최대 26주(약 6개월)</div>
+      </div>
+      <div class="benefit-amount">주 $1,500</div>
+    </div>
+    <div class="benefit-row">
+      <div class="benefit-icon outline">②</div>
+      <div class="benefit-content">
+        <div class="benefit-name">부분 장애 급여</div>
+        <div class="benefit-detail">치료 후 부분적으로 일을 재개했지만 아직 완전하지 않을 때. 완전 장애 급여 수령 후 전환.</div>
+      </div>
+      <div class="benefit-amount">주 $750</div>
+    </div>
+    <div class="benefit-row">
+      <div class="benefit-icon outline">③</div>
+      <div class="benefit-content">
+        <div class="benefit-name">추정 장애 급여 (Presumptive)</div>
+        <div class="benefit-detail">시력·청력·언어·사지 등 영구 상실 시 대기기간 없이 즉시 지급</div>
+      </div>
+      <div class="benefit-amount">주 $1,500</div>
+    </div>
+  </div>
+
+  <div class="highlight-box">
+    <div class="highlight-box-title">이런 분께 꼭 필요합니다</div>
+    <p>"월급이 멈춰도 청구서는 멈추지 않습니다." 치료 기간 동안 모기지, 자녀 학비, 생활비가 그대로 나가는 분이라면 이 보험이 그 공백을 채웁니다.</p>
+  </div>
+
+  <div class="caution-list">
+    <div class="caution-list-title">주의사항</div>
+    <ul>
+      <li>30일 대기기간 필요 (대기기간 중 보험료 납부 시 환급)</li>
+      <li>기존 질환은 가입 후 2년 이내 미지급</li>
+      <li>65세까지 갱신 보장, 조건부로 75세까지 연장 가능</li>
+      <li>직업 클래스와 소득에 따라 가입 가능 금액이 달라짐</li>
+      <li>나이·성별·흡연·직업·소득·거주 주에 따라 보험료 다름</li>
+    </ul>
+  </div>
+
+  <a href="https://stan.store/redbook/p/---cv31rqai" class="cta-btn">내 견적 받아보기 <span class="arrow">→</span></a>
+</section>
+
+<!-- SUMMARY -->
+<section class="summary-section">
+  <div class="summary-inner">
+    <div class="section-num">한눈에 보기</div>
+    <h2>3개의 보험, 3개의 다른 역할</h2>
+    <p class="section-desc">이 보험들은 겹치지 않습니다. 각자 다른 영역을 커버합니다.</p>
+
+    <div class="summary-cards">
+      <div class="summary-card">
+        <div>
+          <div class="summary-card-label">① 생명보험 + 리빙베네핏</div>
+          <div class="summary-card-purpose">가족 보호 + 생전 현금화</div>
+        </div>
+        <div class="summary-card-purpose" style="font-size:13px;color:rgba(255,255,255,0.6);">사망 $500,000<br>생전 5가지 질환·간병</div>
+        <div class="summary-card-price">월 $143.88</div>
+        <div class="summary-card-amount">최대 $500,000</div>
+      </div>
+      <div class="summary-card">
+        <div>
+          <div class="summary-card-label">② 암보험 (Critical Illness)</div>
+          <div class="summary-card-purpose">진단 즉시 현금</div>
+        </div>
+        <div class="summary-card-purpose" style="font-size:13px;color:rgba(255,255,255,0.6);">12가지 중대질환<br>반복 지급 가능</div>
+        <div class="summary-card-price">월 $150</div>
+        <div class="summary-card-amount">회당 $65,494</div>
+      </div>
+      <div class="summary-card">
+        <div>
+          <div class="summary-card-label">③ 단기 장애보험</div>
+          <div class="summary-card-purpose">치료 중 소득 대체</div>
+        </div>
+        <div class="summary-card-purpose" style="font-size:13px;color:rgba(255,255,255,0.6);">주급 $1,500<br>최대 26주</div>
+        <div class="summary-card-price">월 $153.33</div>
+        <div class="summary-card-amount">최대 ~$33,000</div>
+      </div>
+    </div>
+
+    <div class="summary-total">
+      <div class="summary-total-label">월 총 보험료</div>
+      <div style="font-size:24px;font-weight:900;color:white;">$447.21</div>
+    </div>
+
+    <div class="three-points">
+      <div class="three-point">
+        <div class="three-point-num">보험 ①</div>
+        <p>큰 사건에 대비한 구조적 보호. 살아있을 때도, 사망 시에도 작동합니다.</p>
+      </div>
+      <div class="three-point">
+        <div class="three-point-num">보험 ②</div>
+        <p>진단 즉시 쓸 수 있는 현금. 용도 제한 없이, 반복 수령 가능합니다.</p>
+      </div>
+      <div class="three-point">
+        <div class="three-point-num">보험 ③</div>
+        <p>치료 기간 동안 소득 공백을 메웁니다. 월급이 멈춰도 생활은 계속됩니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FACTORS -->
+<section class="factors-section">
+  <div class="section-num">내 보험료는?</div>
+  <h2 style="font-size:clamp(22px,4vw,30px);font-weight:900;margin-bottom:8px;">위 숫자는 캘리포니아 52세<br>비흡연 건강한 남성 기준입니다</h2>
+  <p style="color:var(--gray);font-weight:300;margin-bottom:28px;">보험료와 적정 보장 금액은 개인 상황에 따라 달라집니다. 특히 사망보험금은 단순히 나이나 건강만으로 결정되는 것이 아닙니다.</p>
+
+  <p style="font-size:13px;font-weight:700;letter-spacing:0.08em;color:var(--gray);text-transform:uppercase;margin-bottom:16px;">보험료에 영향을 주는 요소</p>
+  <div class="factors-grid">
+    <div class="factor-card">
+      <div class="factor-card-icon">📅</div>
+      <div class="factor-card-title">나이</div>
+      <div class="factor-card-desc">가입 시점이 빠를수록 보험료가 낮습니다. 지금이 가장 저렴한 시점입니다.</div>
+    </div>
+    <div class="factor-card">
+      <div class="factor-card-icon">⚕️</div>
+      <div class="factor-card-title">건강 상태</div>
+      <div class="factor-card-desc">언더라이팅 결과에 따라 등급과 보험료가 결정됩니다.</div>
+    </div>
+    <div class="factor-card">
+      <div class="factor-card-icon">🚬</div>
+      <div class="factor-card-title">흡연 여부</div>
+      <div class="factor-card-desc">흡연자는 비흡연자 대비 보험료가 크게 높아집니다.</div>
+    </div>
+    <div class="factor-card">
+      <div class="factor-card-icon">💼</div>
+      <div class="factor-card-title">직업 &amp; 소득</div>
+      <div class="factor-card-desc">장애보험은 직업 클래스와 소득에 따라 가입 가능 금액이 달라집니다.</div>
+    </div>
+    <div class="factor-card">
+      <div class="factor-card-icon">📍</div>
+      <div class="factor-card-title">거주 주(State)</div>
+      <div class="factor-card-desc">주마다 승인된 상품과 조건이 다릅니다.</div>
+    </div>
+    <div class="factor-card">
+      <div class="factor-card-icon">🪪</div>
+      <div class="factor-card-title">체류 신분</div>
+      <div class="factor-card-desc">생명보험은 영주권·시민권 없이 Tax ID(ITIN)만 있어도 가입 가능합니다.</div>
+    </div>
+  </div>
+
+  <p style="font-size:13px;font-weight:700;letter-spacing:0.08em;color:var(--gray);text-transform:uppercase;margin-bottom:16px;">적정 사망보험금 규모에 영향을 주는 요소</p>
+  <div style="background:var(--gray-light);border-radius:10px;padding:28px;margin-bottom:36px;">
+    <p style="font-size:14px;color:var(--gray);margin-bottom:20px;font-weight:300;line-height:1.7;">사망보험금은 "얼마짜리 보험에 들 수 있나"의 문제가 아니라, <strong style="color:var(--dark);font-weight:700;">"내가 없어졌을 때 가족에게 얼마가 필요한가"</strong>의 문제입니다.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;">
+      <div style="background:white;padding:18px;border-radius:8px;">
+        <div style="font-size:20px;margin-bottom:8px;">👨‍👩‍👧‍👦</div>
+        <div style="font-size:14px;font-weight:700;margin-bottom:6px;">자녀 나이 &amp; 독립 시기</div>
+        <div style="font-size:12px;color:var(--gray);line-height:1.6;">자녀가 어릴수록 보호 기간이 길어야 합니다. 막내가 독립할 때까지 소득을 대체할 수 있는 금액이 기준이 됩니다.</div>
+      </div>
+      <div style="background:white;padding:18px;border-radius:8px;">
+        <div style="font-size:20px;margin-bottom:8px;">🏠</div>
+        <div style="font-size:14px;font-weight:700;margin-bottom:6px;">모기지 잔액</div>
+        <div style="font-size:12px;color:var(--gray);line-height:1.6;">내가 없어진 후에도 가족이 집을 지킬 수 있어야 합니다. 모기지 잔액 전체를 커버할 수 있는 금액이 포함되어야 합니다.</div>
+      </div>
+      <div style="background:white;padding:18px;border-radius:8px;">
+        <div style="font-size:20px;margin-bottom:8px;">🎓</div>
+        <div style="font-size:14px;font-weight:700;margin-bottom:6px;">학자금 대출 &amp; 교육비</div>
+        <div style="font-size:12px;color:var(--gray);line-height:1.6;">본인 명의 학자금 대출은 사망 시 가족에게 부담이 됩니다. 자녀 대학 교육비까지 고려한다면 필요 금액이 더 커집니다.</div>
+      </div>
+      <div style="background:white;padding:18px;border-radius:8px;">
+        <div style="font-size:20px;margin-bottom:8px;">💳</div>
+        <div style="font-size:14px;font-weight:700;margin-bottom:6px;">기타 부채</div>
+        <div style="font-size:12px;color:var(--gray);line-height:1.6;">자동차 할부, 비즈니스 론, 개인 부채 등 내 이름으로 된 모든 부채를 고려해야 합니다.</div>
+      </div>
+    </div>
+  </div>
+
+  <a href="https://stan.store/redbook/p/---cv31rqai" class="cta-btn">내 견적 받아보기 <span class="arrow">→</span></a>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <h2>내 상황에 맞는<br>보장 구조가 궁금하신가요?</h2>
+  <p style="color:rgba(255,255,255,0.75);font-size:16px;font-weight:300;max-width:460px;margin:0 auto 36px;line-height:1.8;">보험 3개가 각각 어떤 역할을 하는지,<br>내 나이와 상황에서는 얼마가 적정한지<br>함께 살펴보겠습니다.</p>
+  <a href="https://stan.store/redbook/p/---cv31rqai" class="cta-btn white">무료 상담 신청하기 <span class="arrow">→</span></a>
+</section>
+
+<!-- DISCLAIMER -->
+<div class="disclaimer">
+  이 페이지는 교육 목적으로 제작된 참고 자료이며, 실제 보험 계약의 조건·금액·혜택은 각 보험사의 실제 계약서에 의해 결정됩니다. 위에 표시된 금액은 캘리포니아/버지니아 거주 52세 비흡연 남성 기준의 일러스트레이션이며, 보장이 확정된 금액이 아닙니다. 특히 리빙베네핏(ABR)의 중대질환·중대상해 지급액은 심각도와 기대수명 영향에 따라 $0이 될 수 있습니다. 상품 가용성, 요율, 조건은 거주 주에 따라 다를 수 있습니다. 세금·법률 관련 사항은 전문가와 상담하시기 바랍니다.
+</div>
+
+</body>
+</html>
